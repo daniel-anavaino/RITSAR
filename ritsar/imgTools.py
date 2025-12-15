@@ -161,7 +161,7 @@ def polar_format(phs, platform, img_plane, taylor = 20):
     #Interpolate in along track direction to obtain polar formatted data
     real_polar = np.zeros([nv,nu])
     imag_polar = np.zeros([nv,nu])
-    isSort = (ky_new[npulses/2, nu/2] < ky_new[npulses/2+1, nu/2])
+    isSort = (ky_new[npulses//2, nu//2] < ky_new[npulses//2+1, nu//2])
     if isSort:
         for i in range(nu):
             print('cross-range interpolating for sample %i'%(i+1))
@@ -291,7 +291,7 @@ def backprojection(phs, platform, img_plane, taylor = 20, upsample = 6, prnt = T
     #Derive parameters
     nu = u.size
     nv = v.size
-    k_c = k_r[nsamples/2]
+    k_c = k_r[nsamples//2]
     
     #Create window
     win_x = sig.taylor(nsamples,taylor)
@@ -329,7 +329,7 @@ def backprojection(phs, platform, img_plane, taylor = 20, upsample = 6, prnt = T
         Q_hat = Q_real+1j*Q_imag        
         img += Q_hat*np.exp(-1j*k_c*dr_i)
     
-    r0 = np.array([pos[npulses/2]]).T
+    r0 = np.array([pos[npulses//2]]).T
     dr_i = norm(r0)-norm(r-r0, axis = 0)
     img = img*np.exp(1j*k_c*dr_i)   
     img = np.reshape(img, [nv, nu])[::-1,:]
@@ -521,8 +521,8 @@ def DS(phs, platform, img_plane, center=None, size=None, derate = 1.05, taylor =
     #update platform
     platformDS['nsamples'] = freq.size
     platformDS['freq']     = freq
-    deltaF = freq[freq.size/2]-freq[freq.size/2-1] #Assume sample spacing can be determined by difference between last two values (first two are distorted by decimation filter)
-    freq   = freq[freq.size/2]+np.arange(-freq.size/2,freq.size/2)*deltaF
+    deltaF = freq[freq.size//2]-freq[freq.size//2-1] #Assume sample spacing can be determined by difference between last two values (first two are distorted by decimation filter)
+    freq   = freq[freq.size//2]+np.arange(-freq.size/2,freq.size/2)*deltaF
     platformDS['k_r'] = 4*pi*freq/c
 
     #interpolate phs and pos using uniform azimuth spacing
@@ -638,7 +638,7 @@ def FFBP(phs, platform, img_plane, N=3, derate = 1.05, taylor = 20, n = 32, beta
         
             #Derive parameters
             img_plane_sub = dict(img_planeDS)
-            full_size = np.array([v.size, u.size], dtype = np.int)
+            full_size = np.array([v.size, u.size], dtype = np.int64)
             sub_size = np.array(full_size/2, dtype = int)
             img_FFBP = np.zeros(full_size)
         
@@ -696,7 +696,7 @@ def FFBP(phs, platform, img_plane, N=3, derate = 1.05, taylor = 20, n = 32, beta
     n_img = image_number-1
     
     #Derive parameters
-    full_size = np.array([v.size, u.size], dtype = np.int)
+    full_size = np.array([v.size, u.size], dtype = np.int64)
     sub_size = np.array(full_size/(2**N), dtype = int)
     img_FFBP = np.zeros(full_size)
     
@@ -755,7 +755,7 @@ def FFBPmp(phs, platform, img_plane, N=3, derate = 1.05, taylor = 20, n = 32, be
     
     #Derive parameters
     img_plane_sub = dict(img_plane)
-    full_size = np.array([v.size, u.size], dtype = np.int)
+    full_size = np.array([v.size, u.size], dtype = np.int64)
     sub_size = np.array(full_size/2, dtype = int)
     img_FFBP = np.zeros(full_size)
     
@@ -816,7 +816,7 @@ def FFBPmp(phs, platform, img_plane, N=3, derate = 1.05, taylor = 20, n = 32, be
     output = [p.get() for p in results]
     
     #Derive parameters
-    full_size = np.array([v.size, u.size], dtype = np.int)
+    full_size = np.array([v.size, u.size], dtype = np.int64)
     sub_size = np.array(full_size/2, dtype = int)
     img_FFBP = np.zeros(full_size)
     

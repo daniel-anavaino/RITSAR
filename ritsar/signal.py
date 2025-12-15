@@ -170,10 +170,10 @@ def decimate(x, q, n=None, axis=-1, beta = None, cutoff = 'nyq'):
     if beta == None:
         beta = 1.*n/8
     
-    padlen = n/2
+    padlen = n//2
     
     if cutoff == 'nyq':
-        eps = np.finfo(np.float).eps
+        eps = np.finfo(np.float64).eps
         cutoff = 1.-eps
     
     window = ('kaiser', beta)
@@ -182,6 +182,7 @@ def decimate(x, q, n=None, axis=-1, beta = None, cutoff = 'nyq'):
     b = firwin(n,  cutoff/ q, window=window)
     y = filtfilt(b, [a], x, axis=axis, padlen = padlen)
     
-    sl = [slice(None)] * y.ndim
-    sl[axis] = slice(None, None, q)
+    sl = [np.s_[::]] * y.ndim
+    sl[axis] = np.s_[::q]
+    sl = tuple(sl)
     return y[sl]
