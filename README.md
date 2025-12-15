@@ -3,7 +3,11 @@ Synthetic Aperture Radar (SAR) Image Processing Toolbox for Python
 
 Before installation, please make sure you have the following:
 - SciPy. Comes with many Python distributions such as Enthought Canopy, Python(x,y), and Anaconda.  Development was done using the Anaconda distribution which can be downloaded for free from https://store.continuum.io/cshop/anaconda/. 
-- OpenCV (optional). If using the omega-k algorithm, OpenCV is required. Instructions for installing OpenCV for Python can be found at  https://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_setup/py_table_of_contents_setup/py_table_of_contents_setup.html#py-table-of-content-setup.
+- OpenCV (optional). If using the omega-k algorithm, OpenCV is required. Can be installed from the command line using
+
+  $ pip install opencv-python
+
+alternatively, instructions for installing OpenCV for Python can be found at  https://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_setup/py_table_of_contents_setup/py_table_of_contents_setup.html#py-table-of-content-setup.
 - Spectral (optional).  Needed to interface with .envi files.  Can be installed from the command line using
 
   $ pip install spectral
@@ -20,7 +24,7 @@ Once you've ensured the required libraries are up-to-date, download the zip file
 
 $ cd \<ritsar_dir\>
 
-$ python setup.py install
+$ python -m pip install .
 
 then...
 

@@ -394,8 +394,8 @@ def DSBP(phs, platform, img_plane, center=None, size=None, derate = 1.05, taylor
     #update platform
     platformDS['nsamples'] = freq.size
     platformDS['freq']     = freq
-    deltaF = freq[freq.size/2]-freq[freq.size/2-1] #Assume sample spacing can be determined by difference between last two values (first two are distorted by decimation filter)
-    freq   = freq[freq.size/2]+np.arange(-freq.size/2,freq.size/2)*deltaF
+    deltaF = freq[freq.size//2]-freq[freq.size//2-1] #Assume sample spacing can be determined by difference between last two values (first two are distorted by decimation filter)
+    freq   = freq[freq.size//2]+np.arange(-freq.size/2,freq.size/2)*deltaF
     platformDS['k_r'] = 4*pi*freq/c
 
     #interpolate phs and pos using uniform azimuth spacing
@@ -449,8 +449,8 @@ def DSBP(phs, platform, img_plane, center=None, size=None, derate = 1.05, taylor
         img_planeDS['v']    = np.arange(-size[0]/2,size[0]/2)*dv
 		
         #get pixel locs for sub_image
-        u_index = np.arange(center_index[1]-size[1]/2,center_index[1]+size[1]/2)
-        v_index = np.arange(center_index[0]-size[0]/2,center_index[0]+size[0]/2)
+        u_index = np.arange(center_index[1]-size[1]//2,center_index[1]+size[1]//2)
+        v_index = np.arange(center_index[0]-size[0]//2,center_index[0]+size[0]//2)
         uu,vv = np.meshgrid(u_index,v_index)
         locs_index = np.ravel_multi_index((vv.flatten(),uu.flatten()),(v.size,u.size))
         img_planeDS['pixel_locs']     = img_plane['pixel_locs'][:,locs_index]-np.array([center]).T
@@ -1080,11 +1080,11 @@ def autoFocus2(img, win = 'auto', win_params = [100,0.5]):
             #For all other iterations, use twice the 30 dB threshold
             else:
                 width = np.sum(s>-30)
-            window = np.arange(npulses/2-width/2,npulses/2+width/2)
+            window = np.arange(npulses/2-width/2,npulses/2+width/2,dtype=int)
         else:
             #Compute window width using win_params if win not set to 'auto'    
             width = int(win_params[0]*win_params[1]**iii)
-            window = np.arange(npulses/2-width/2,npulses/2+width/2)
+            window = np.arange(npulses/2-width/2,npulses/2+width/2,dtype=int)
             if width<5:
                 break
         
